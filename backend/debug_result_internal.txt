@@ -1,0 +1,35 @@
+INFO:root:Python executable: d:\app_file\translat\backend\venv\Scripts\python.exe
+INFO:root:HF_TOKEN present: False
+INFO:root:HUGGING_FACE_HUB_TOKEN present: False
+INFO:root:ctranslate2 imported successfully 4.6.3
+INFO:root:sentencepiece imported successfully 0.2.1
+INFO:root:NLLBEngine imported successfully
+INFO:root:Loading model...
+INFO:uvicorn:Loading NLLB Engine (JustFrederik/nllb-200-distilled-600M-ct2-int8)...
+INFO:uvicorn:Downloading model to D:\app_file\translat\backend\models\nllb-200-ct2...
+INFO:httpx:HTTP Request: GET https://huggingface.co/api/models/JustFrederik/nllb-200-distilled-600M-ct2-int8/revision/main "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: HEAD https://huggingface.co/JustFrederik/nllb-200-distilled-600M-ct2-int8/resolve/302d78f00e6fdb50a1064059df7c392b735e9d05/tokenizer.json "HTTP/1.1 302 Found"
+INFO:httpx:HTTP Request: HEAD https://huggingface.co/JustFrederik/nllb-200-distilled-600M-ct2-int8/resolve/302d78f00e6fdb50a1064059df7c392b735e9d05/sentencepiece.bpe.model "HTTP/1.1 302 Found"
+WARNING:huggingface_hub.utils._http:Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+INFO:httpx:HTTP Request: HEAD https://huggingface.co/JustFrederik/nllb-200-distilled-600M-ct2-int8/resolve/302d78f00e6fdb50a1064059df7c392b735e9d05/README.md "HTTP/1.1 307 Temporary Redirect"
+INFO:httpx:HTTP Request: HEAD https://huggingface.co/JustFrederik/nllb-200-distilled-600M-ct2-int8/resolve/302d78f00e6fdb50a1064059df7c392b735e9d05/shared_vocabulary.txt "HTTP/1.1 307 Temporary Redirect"
+INFO:httpx:HTTP Request: HEAD https://huggingface.co/JustFrederik/nllb-200-distilled-600M-ct2-int8/resolve/302d78f00e6fdb50a1064059df7c392b735e9d05/model.bin "HTTP/1.1 302 Found"
+INFO:httpx:HTTP Request: HEAD https://huggingface.co/JustFrederik/nllb-200-distilled-600M-ct2-int8/resolve/302d78f00e6fdb50a1064059df7c392b735e9d05/special_tokens_map.json "HTTP/1.1 307 Temporary Redirect"
+INFO:httpx:HTTP Request: HEAD https://huggingface.co/JustFrederik/nllb-200-distilled-600M-ct2-int8/resolve/302d78f00e6fdb50a1064059df7c392b735e9d05/config.json "HTTP/1.1 307 Temporary Redirect"
+INFO:httpx:HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/JustFrederik/nllb-200-distilled-600M-ct2-int8/302d78f00e6fdb50a1064059df7c392b735e9d05/README.md "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/JustFrederik/nllb-200-distilled-600M-ct2-int8/302d78f00e6fdb50a1064059df7c392b735e9d05/shared_vocabulary.txt "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: HEAD https://huggingface.co/JustFrederik/nllb-200-distilled-600M-ct2-int8/resolve/302d78f00e6fdb50a1064059df7c392b735e9d05/.gitattributes "HTTP/1.1 307 Temporary Redirect"
+INFO:httpx:HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/JustFrederik/nllb-200-distilled-600M-ct2-int8/302d78f00e6fdb50a1064059df7c392b735e9d05/config.json "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/JustFrederik/nllb-200-distilled-600M-ct2-int8/302d78f00e6fdb50a1064059df7c392b735e9d05/special_tokens_map.json "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: GET https://huggingface.co/api/models/JustFrederik/nllb-200-distilled-600M-ct2-int8/xet-read-token/302d78f00e6fdb50a1064059df7c392b735e9d05 "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: GET https://huggingface.co/api/models/JustFrederik/nllb-200-distilled-600M-ct2-int8/xet-read-token/302d78f00e6fdb50a1064059df7c392b735e9d05 "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: GET https://huggingface.co/api/models/JustFrederik/nllb-200-distilled-600M-ct2-int8/xet-read-token/302d78f00e6fdb50a1064059df7c392b735e9d05 "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: GET https://huggingface.co/api/resolve-cache/models/JustFrederik/nllb-200-distilled-600M-ct2-int8/302d78f00e6fdb50a1064059df7c392b735e9d05/README.md "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: GET https://huggingface.co/api/resolve-cache/models/JustFrederik/nllb-200-distilled-600M-ct2-int8/302d78f00e6fdb50a1064059df7c392b735e9d05/config.json "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: GET https://huggingface.co/api/resolve-cache/models/JustFrederik/nllb-200-distilled-600M-ct2-int8/302d78f00e6fdb50a1064059df7c392b735e9d05/shared_vocabulary.txt "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/JustFrederik/nllb-200-distilled-600M-ct2-int8/302d78f00e6fdb50a1064059df7c392b735e9d05/.gitattributes "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: GET https://huggingface.co/api/resolve-cache/models/JustFrederik/nllb-200-distilled-600M-ct2-int8/302d78f00e6fdb50a1064059df7c392b735e9d05/special_tokens_map.json "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: GET https://huggingface.co/api/resolve-cache/models/JustFrederik/nllb-200-distilled-600M-ct2-int8/302d78f00e6fdb50a1064059df7c392b735e9d05/.gitattributes "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: HEAD https://huggingface.co/JustFrederik/nllb-200-distilled-600M-ct2-int8/resolve/302d78f00e6fdb50a1064059df7c392b735e9d05/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+INFO:httpx:HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/JustFrederik/nllb-200-distilled-600M-ct2-int8/302d78f00e6fdb50a1064059df7c392b735e9d05/tokenizer_config.json "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: GET https://huggingface.co/api/resolve-cache/models/JustFrederik/nllb-200-distilled-600M-ct2-int8/302d78f00e6fdb50a1064059df7c392b735e9d05/tokenizer_config.json "HTTP/1.1 200 OK"

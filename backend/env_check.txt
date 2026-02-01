@@ -1,0 +1,4 @@
+Python: D:\app_file\translat\backend\venv\Scripts\python.exe
+Uvicorn: 0.40.0
+Requests: 2.32.5
+FastAPI: 0.128.0

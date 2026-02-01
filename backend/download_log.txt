@@ -1,0 +1,7 @@
+--- Starting JustFrederik Model Test ---
+Testing Repo: JustFrederik/nllb-200-distilled-600M-ct2-int8
+Status Code: 200
+SUCCESS: Repo Accessible.
+Downloading config.json...
+OK
+Downloading model.bin...

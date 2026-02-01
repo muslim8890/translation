@@ -1,0 +1,24 @@
+Traceback (most recent call last):
+  File "C:\Python314\Lib\py_compile.py", line 144, in compile
+    code = loader.source_to_code(source_bytes, dfile or file,
+                                 _optimize=optimize)
+  File "<frozen importlib._bootstrap_external>", line 826, in source_to_code
+  File "<frozen importlib._bootstrap>", line 491, in _call_with_frames_removed
+  File "d:/app_file/translat/backend/main.py", line 267
+    else:
+    ^^^^
+SyntaxError: invalid syntax
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\app_file\translat\backend\compile_check.py", line 6, in <module>
+    py_compile.compile('d:/app_file/translat/backend/main.py', doraise=True)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\py_compile.py", line 150, in compile
+    raise py_exc
+py_compile.PyCompileError:   File "d:/app_file/translat/backend/main.py", line 267
+    else:
+    ^^^^
+SyntaxError: invalid syntax
+

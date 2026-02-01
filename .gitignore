@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+backend/venv/
+backend/models/
+backend/temp_outputs/
+backend/temp_uploads/
+*.log
+backend/*.log
+
+# Node
+frontend/node_modules/
+# Do NOT ignore frontend/dist because we are copying it in Docker
+# frontend/dist/
+
+# System
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

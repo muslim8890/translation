@@ -1,0 +1,1 @@
+ERROR: 'charmap' codec can't encode character '\u2581' in position 10: character maps to <undefined>

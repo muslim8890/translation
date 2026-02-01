@@ -1,0 +1,5 @@
+STEP 1: Start
+STEP 2 FAIL: No module named 'torch'
+STEP 3: CTranslate2 Imported
+STEP 4 FAIL: No module named 'easynmt'
+STEP 5: Done

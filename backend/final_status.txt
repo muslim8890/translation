@@ -1,0 +1,8 @@
+IMPORT_OK
+ERROR: Unable to open file 'model.bin' in model 'D:\app_file\translat\backend\models\nllb-200-ct2'
+IMPORT_OK
+ERROR: File model.bin is incomplete: failed to read a buffer of size 262354944 at position 191
+IMPORT_OK
+ERROR: File model.bin is incomplete: failed to read a buffer of size 262354944 at position 191
+IMPORT_OK
+ERROR: File model.bin is incomplete: failed to read a buffer of size 262354944 at position 191

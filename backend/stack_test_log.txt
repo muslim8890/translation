@@ -1,0 +1,98 @@
+--- TESTING NLLB ---
+NLLB Failed: File model.bin is incomplete: failed to read a buffer of size 262354944 at position 191
+
+--- TESTING GEMINI FALLBACK ---
+Gemini Failed: 403 Requests from referer <empty> are blocked. [reason: "API_KEY_HTTP_REFERRER_BLOCKED"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+metadata {
+  key: "httpReferrer"
+  value: "<empty>"
+}
+metadata {
+  key: "consumer"
+  value: "projects/775685139855"
+}
+, locale: "en-US"
+message: "Requests from referer <empty> are blocked."
+]
+--- TESTING NLLB ---
+NLLB Failed: File model.bin is incomplete: failed to read a buffer of size 262354944 at position 191
+
+--- TESTING GEMINI FALLBACK (ALL KEYS) ---
+Testing Key 1...
+FAILED Key 1: 403 Requests from referer <empty> are blocked. [reason: "API_KEY_HTTP_REFERRER_BLOCKED"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+metadata {
+  key: "httpReferrer"
+  value: "<empty>"
+}
+metadata {
+  key: "consumer"
+  value: "projects/775685139855"
+}
+, locale: "en-US"
+message: "Requests from referer <empty> are blocked."
+]
+Testing Key 2...
+FAILED Key 2: 403 Requests from referer <empty> are blocked. [reason: "API_KEY_HTTP_REFERRER_BLOCKED"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+metadata {
+  key: "httpReferrer"
+  value: "<empty>"
+}
+metadata {
+  key: "consumer"
+  value: "projects/775685139855"
+}
+, locale: "en-US"
+message: "Requests from referer <empty> are blocked."
+]
+Testing Key 3...
+FAILED Key 3: 403 Requests from referer <empty> are blocked. [reason: "API_KEY_HTTP_REFERRER_BLOCKED"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+metadata {
+  key: "httpReferrer"
+  value: "<empty>"
+}
+metadata {
+  key: "consumer"
+  value: "projects/775685139855"
+}
+, locale: "en-US"
+message: "Requests from referer <empty> are blocked."
+]
+Testing Key 4...
+FAILED Key 4: 403 Requests from referer <empty> are blocked. [reason: "API_KEY_HTTP_REFERRER_BLOCKED"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+metadata {
+  key: "httpReferrer"
+  value: "<empty>"
+}
+metadata {
+  key: "consumer"
+  value: "projects/775685139855"
+}
+, locale: "en-US"
+message: "Requests from referer <empty> are blocked."
+]
+ALL KEYS FAILED.

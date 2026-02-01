@@ -1,0 +1,6 @@
+1. Starting Import Check...
+FAIL: Torch - No module named 'torch'
+3. CTranslate2 OK
+FAIL: EasyNMT - No module named 'easynmt'
+FAIL: OfflineEngine - No module named 'torch'
+7. Done.
