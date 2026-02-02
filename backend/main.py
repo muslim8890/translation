@@ -1504,11 +1504,16 @@ async def startup_event():
     if os.path.exists(frontend_dist):
         logger.info(f"Frontend Dist Found at: {frontend_dist}")
         logger.info(f"Dist Contents: {os.listdir(frontend_dist)}")
-        if os.path.exists(os.path.join(frontend_dist, "assets")):
-             logger.info(f"Assets Contents: {os.listdir(os.path.join(frontend_dist, 'assets'))}")
+        assets_path = os.path.join(frontend_dist, "assets")
+        if os.path.exists(assets_path):
+             logger.info(f"Assets Contents: {os.listdir(assets_path)}")
+             # Mount assets specifically (highest priority for static files)
+             app.mount("/assets", StaticFiles(directory=assets_path), name="assets")
+        else:
+             logger.warning(f"ASSETS DIRECTORY MISSING: {assets_path}")
+             # Create empty assets dir to prevent crash if logic depends on it later? 
+             # No, just don't mount.
 
-        # Mount assets specifically (highest priority for static files)
-        app.mount("/assets", StaticFiles(directory=os.path.join(frontend_dist, "assets")), name="assets")
         
         # Catch-All for React (Return index.html for everything else)
         @app.get("/{full_path:path}")
