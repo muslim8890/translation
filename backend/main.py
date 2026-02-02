@@ -1530,6 +1530,10 @@ async def startup_event():
             if os.path.exists(file_path) and os.path.isfile(file_path):
                 return FileResponse(file_path)
             
+            # CRITICAL FIX: Do NOT return index.html for missing assets/JS/CSS
+            if full_path.startswith("assets/") or full_path.endswith(".js") or full_path.endswith(".css"):
+                return JSONResponse({"error": "Asset Not Found"}, status_code=404)
+
             # Otherwise return index.html (SPA Routing)
             return FileResponse(os.path.join(frontend_dist, "index.html"))
 

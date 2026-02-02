@@ -1,11 +1,23 @@
-# Base Image: Python 3.10 Slim (Lightweight)
-# CACHE BUST: 2026-02-02-FINAL-FIX-V3
+# --- STAGE 1: Build Frontend ---
+FROM node:20-slim as frontend-build
+WORKDIR /app/frontend
+
+# Copy dependencies first for caching
+COPY frontend/package*.json ./
+RUN npm install
+
+# Copy source and build
+COPY frontend ./
+RUN npm run build
+RUN ls -R /app/frontend/dist
+
+
+# --- STAGE 2: Build Backend & Serve ---
 FROM python:3.10-slim
 
-# 1. Install System Dependencies (ESSENTIAL for PDF/Poppler)
+# 1. Install System Dependencies
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update --fix-missing
-RUN apt-get install -y --no-install-recommends \
+RUN apt-get update --fix-missing && apt-get install -y --no-install-recommends \
     poppler-utils \
     libgl1 \
     libglib2.0-0 \
@@ -15,20 +27,18 @@ RUN apt-get install -y --no-install-recommends \
 WORKDIR /app
 ENV PYTHONPATH=/app/backend
 
-# 3. Copy Requirements first (Docker Cache Layering)
+# 3. Copy Python Requirements
 COPY backend/requirements.txt .
-
-# 4. Install Python Dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 5. Copy the Application Code
-# We act as if we are in the root of the repo
+# 4. Copy Backend Code
 COPY backend /app/backend
-COPY frontend/dist /app/frontend/dist
+
+# 5. Copy Built Frontend from Stage 1
+COPY --from=frontend-build /app/frontend/dist /app/frontend/dist
 
 # 6. Expose Port
 EXPOSE 8000
 
 # 7. Run Command
-# Note: "backend.main:app" assumes we are at /app and backend is a package or folder
 CMD ["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "8000"]
