@@ -13,6 +13,7 @@ RUN apt-get install -y --no-install-recommends \
 
 # 2. Set Working Directory
 WORKDIR /app
+ENV PYTHONPATH=/app/backend
 
 # 3. Copy Requirements first (Docker Cache Layering)
 COPY backend/requirements.txt .
