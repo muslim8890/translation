@@ -102,7 +102,14 @@ class ConnectionManager:
 manager = ConnectionManager()
 
 @app.websocket("/ws")
-async def websocket_endpoint(websocket: WebSocket):
+async def websocket_endpoint_strict(websocket: WebSocket):
+    await websocket_handler(websocket)
+
+@app.websocket("/ws/{client_id}")
+async def websocket_endpoint_legacy(websocket: WebSocket, client_id: str):
+    await websocket_handler(websocket)
+
+async def websocket_handler(websocket: WebSocket):
     client_id = await manager.connect(websocket)
     try:
         await websocket.send_json({"client_id": client_id})
