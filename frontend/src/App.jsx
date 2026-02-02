@@ -27,20 +27,34 @@ function App() {
   // If running in Mobile App (Capacitor), use your SERVER IP/DOMAIN here.
   // Example: const API_BASE = "https://my-translator-app.onrender.com";
   // For local testing on Emulator: "http://10.0.2.2:8000"
+  // --- CONFIG ---
   const isMobile = window.Capacitor !== undefined;
-  const API_BASE = isMobile
-    ? "http://10.0.2.2:8000" // Default Android Emulator Loopback
-    : "http://localhost:8000"; // Web Default
-  // : ""; // Production Web (Relative) -> Uncomment this when deploying to server
 
+  // Dynamic API Base
+  const getApiBase = () => {
+    if (isMobile) return "http://10.0.2.2:8000"; // Android Emulator
+    if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") return "http://localhost:8000"; // Local Dev
+    return ""; // Production (Relative path)
+  };
+
+  const API_BASE = getApiBase();
 
   // --- CONNECT SYSTEM ---
   useEffect(() => {
     const connectWS = () => {
-      // Generate a new temporary ID for this connection if clientId is not yet set
-      // This ID will be replaced by the server-assigned clientId once received
       const newId = clientId || `temp-${Date.now()}`;
-      const wsUrl = API_BASE.replace('http', 'ws') + `/ws/${newId}`;
+
+      // Construct WS URL dynamically
+      let wsBase;
+      if (API_BASE.startsWith('http')) {
+        wsBase = API_BASE.replace('http', 'ws');
+      } else {
+        // Production: explicit wss:// if https, ws:// if http
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        wsBase = `${protocol}//${window.location.host}`;
+      }
+
+      const wsUrl = `${wsBase}/ws/${newId}`;
       const socket = new WebSocket(wsUrl);
       socket.onopen = () => console.log('WS Connected');
       socket.onmessage = (event) => {
