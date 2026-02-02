@@ -1,10 +1,13 @@
 # Base Image: Python 3.10 Slim (Lightweight)
+# CACHE BUST: 2026-02-02-FINAL-FIX-V3
 FROM python:3.10-slim
 
 # 1. Install System Dependencies (ESSENTIAL for PDF/Poppler)
-RUN apt-get update && apt-get install -y \
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update --fix-missing
+RUN apt-get install -y --no-install-recommends \
     poppler-utils \
-    libgl1-mesa-glx \
+    libgl1 \
     libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 
