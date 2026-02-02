@@ -1494,27 +1494,31 @@ async def startup_event():
             logger.error(f"NLLB Preload Failed: {e}")
 
     # --- SERVE REACT FRONTEND (PRODUCTION) ---
+    # --- SERVE REACT FRONTEND (PRODUCTION) ---
     from fastapi.staticfiles import StaticFiles
     from starlette.responses import FileResponse
 
     # Mount the 'dist' folder (Result of npm run build)
-    # Check if dist exists specifically in the frontend folder relative to this file
     frontend_dist = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "frontend", "dist")
     
     if os.path.exists(frontend_dist):
+        logger.info(f"Frontend Dist Found at: {frontend_dist}")
+        logger.info(f"Dist Contents: {os.listdir(frontend_dist)}")
+        if os.path.exists(os.path.join(frontend_dist, "assets")):
+             logger.info(f"Assets Contents: {os.listdir(os.path.join(frontend_dist, 'assets'))}")
+
+        # Mount assets specifically (highest priority for static files)
         app.mount("/assets", StaticFiles(directory=os.path.join(frontend_dist, "assets")), name="assets")
-        # You might have other folders like 'static' or favicon in dist
         
-        # Catch-All for React Router (Single Page App)
+        # Catch-All for React (Return index.html for everything else)
         @app.get("/{full_path:path}")
-        async def serve_react_app(full_path: str):
-            # API routes are already handled above because they are defined first.
-            # Use FileResponse to share the index.html
-            target_path = os.path.join(frontend_dist, full_path)
-            if os.path.exists(target_path) and os.path.isfile(target_path):
-                 return FileResponse(target_path)
+        async def serve_spa(full_path: str):
+            # Check if file exists in dist (e.g. vite.svg, favicon.ico)
+            file_path = os.path.join(frontend_dist, full_path)
+            if os.path.exists(file_path) and os.path.isfile(file_path):
+                return FileResponse(file_path)
             
-            # Default to index.html for any unknown route (React handles 404)
+            # Otherwise return index.html (SPA Routing)
             return FileResponse(os.path.join(frontend_dist, "index.html"))
 
     import threading
