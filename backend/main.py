@@ -572,7 +572,7 @@ class PipelineManager:
             final_doc.close()
             
             # Notify Frontend
-            final_url = f"http://localhost:8000/outputs/{final_filename}"
+            final_url = f"/outputs/{final_filename}"
             await manager.send_msg(self.client_id, {
                 "type": "final_ready",
                 "url": final_url,
@@ -859,7 +859,7 @@ class PipelineManager:
                 
                 # Notify Frontend of Page Completion (Live Preview)
                 page_filename = f"v19_line_p{page_num}.pdf"
-                preview_url = f"http://localhost:8000/outputs/{page_filename}"
+                preview_url = f"/outputs/{page_filename}"
                 await manager.send_msg(self.client_id, {
                     "type": "page_ready", 
                     "page": page_num + 1, 
@@ -1309,7 +1309,7 @@ async def process_pdf_background_task(pdf_bytes: bytes, settings: dict, client_i
         final_doc.save(output_path, garbage=4, deflate=True)
         final_doc.close()
 
-        download_url = f"http://localhost:8000/download/{filename}"
+        download_url = f"/outputs/{filename}"
         await manager.send_msg(client_id, {"type": "complete", "download_url": download_url, "filename": filename})
         logger.info(f"V19 Pipeline Complete for {client_id}")
 
@@ -1487,7 +1487,7 @@ async def translate_pdf(
 @app.on_event("startup")
 async def startup_event():
     """Preload NLLB Engine on Startup"""
-    logger.info("--- NLLB SYSTEM STARTUP ---")
+    logger.info("--- NLLB SYSTEM STARTUP (v21-nllb-fix-final) ---")
     logger.info("Initializing NLLB Engine (Background Download)...")
     
     def preload():
