@@ -323,9 +323,9 @@ function SidebarContent({ progress, statusText, errorText, loading, translationM
                 onChange={(e) => setTargetLang(e.target.value)}
                 className="appearance-none bg-[#111] text-gray-300 text-[10px] font-bold py-1.5 px-3 pr-6 rounded-lg border border-[#222] focus:border-emerald-500/50 outline-none cursor-pointer hover:bg-[#161616] transition-colors w-24 text-right"
               >
-                <option value="Arabic">العربية</option>
-                <option value="English">English</option>
-                <option value="French">Français</option>
+                <option value="ar">العربية</option>
+                <option value="en">English</option>
+                <option value="fr">Français</option>
               </select>
               <div className="absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none">
                 <Globe className="w-3 h-3 text-gray-500" />

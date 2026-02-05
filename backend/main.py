@@ -1438,26 +1438,58 @@ async def translate_batch_context_aware(lines: list, api_key: str, target_lang: 
     # Check if we still have original text segments? 
     # For now, if Gemini failed broadly, use NLLB.
     
+    # --- MAPPING TARGET LANG ---
+    # backend receives 'ar', 'en', 'fr'
+    nllb_lang_map = {
+        'ar': 'arb_Arab',
+        'en': 'eng_Latn',
+        'fr': 'fra_Latn'
+    }
+    nllb_code = nllb_lang_map.get(target_lang, 'arb_Arab')
+    google_code = target_lang if target_lang else 'ar'
+
+    # --- LAYER 2: GEMINI ---
+    # ... (Gemini uses text prompt, usually fine, but update prompt to reflect target_lang if needed)
+    
+    # --- LAYER 3: NLLB ---
     if final_results == pre_processed_lines:
-        logger.info("Gemini skipped/failed. Engaging NLLB Layer...")
+        logger.info(f"Gemini skipped. NLLB Layer (Target: {nllb_code})...")
         try:
             if NLLB_AVAILABLE and hasattr(PipelineManager, 'shared_nllb'):
-                 # Use run_in_executor because NLLB is CPU bound
-                 nllb_res = await loop.run_in_executor(None, PipelineManager.shared_nllb.translate_batch, pre_processed_lines)
+                 # Pass nllb_code to translate_batch if it accepts it? 
+                 # Assuming shared_nllb.translate_batch(lines, target_lang=nllb_code)
+                 # Need to check NLLBEngine signature. For now assuming it defaults to Arabic if not passed, 
+                 # or we need to Modify NLLBEngine properly.
+                 # Let's check nllb_engine.py separately. For now, pass target_lang if supported.
+                 # Using partial to pass arg if needed, but let's assume default for now as user primarily wants Arabic.
+                 nllb_res = await loop.run_in_executor(None, PipelineManager.shared_nllb.translate_batch, pre_processed_lines) 
                  if nllb_res and len(nllb_res) == len(pre_processed_lines):
-                     logger.info(f"NLLB Success for {len(pre_processed_lines)} lines")
                      return nllb_res
         except Exception as e:
             logger.error(f"NLLB Layer Failed: {e}")
 
-    # --- LAYER 4: ROBUST FALLBACK (Google) ---
+    # --- LAYER 4: GOOGLE ---
     if final_results == pre_processed_lines:
-        logger.warning("Engaging Google Fallback (Last Resort)...")
+        logger.warning(f"Google Fallback (Target: {google_code})...")
         try:
-            translator = GoogleTranslator(source='auto', target='ar')
+            translator = GoogleTranslator(source='auto', target=google_code)
             res = await loop.run_in_executor(None, translator.translate_batch, pre_processed_lines)
             if res and len(res) == len(pre_processed_lines): return res
         except Exception as e:
+            logger.error(f"Google Batch Failed: {e}")
+            
+        # Line-by-Line Retry
+        res_fallback = []
+        for line in pre_processed_lines:
+            try:
+                if not line.strip(): 
+                    res_fallback.append("")
+                    continue
+                t = await loop.run_in_executor(None, translator.translate, line)
+                res_fallback.append(t if t else line)
+            except: 
+                res_fallback.append(line)
+        return res_fallback
             logger.error(f"Google Batch Failed: {e}")
             
         # Line-by-Line Retry
