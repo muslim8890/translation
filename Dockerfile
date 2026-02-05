@@ -21,6 +21,7 @@ RUN apt-get update --fix-missing && apt-get install -y --no-install-recommends \
     poppler-utils \
     libgl1 \
     libglib2.0-0 \
+    libgomp1 \
     && rm -rf /var/lib/apt/lists/*
 
 # 2. Set Working Directory
@@ -30,6 +31,7 @@ ENV PYTHONPATH=/app/backend
 # 3. Copy Python Requirements
 COPY backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install ctranslate2==3.20.0
 
 # 4. Copy Backend Code
 COPY backend /app/backend
@@ -42,5 +44,5 @@ EXPOSE 8000
 
 # 7. Run Command
 # 7. Run Command
-ENV DEPLOY_VERSION="v23-url-fix-final"
+ENV DEPLOY_VERSION="v26-hybrid-engine-final"
 CMD ["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "8000"]

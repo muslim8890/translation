@@ -1407,21 +1407,18 @@ async def translate_batch_context_aware(lines: list, api_key: str, target_lang: 
              OUTPUT JSON:
              """
              
-         response = await loop.run_in_executor(None, lambda: model.generate_content(gemini_prompt))
-         response_text = response.text
-         
-    except Exception as e:
-         logger.warning(f"Context Translator Failed: {e}")
-         response_text = None
-
-    final_results = [""] * len(pre_processed_lines)
     
-    if response_text:
-        cleaned = re.sub(r'```json\n?|\n?```', '', response_text).strip()
-        match = re.search(r'\[.*\]', cleaned, re.DOTALL)
-        if match: cleaned = match.group(0)
-        
-        try:
+    # Initialize with Source Text (Critical Fix for Fallback Comparison)
+    final_results = list(pre_processed_lines)
+    
+    # --- LAYER 2: GEMINI (Context Aware) ---
+    try:
+        response = await loop.run_in_executor(None, lambda: model.generate_content(gemini_prompt))
+        response_text = response.text
+        if response_text:
+            cleaned = re.sub(r'```json\n?|\n?```', '', response_text).strip()
+            match = re.search(r'\[.*\]', cleaned, re.DOTALL)
+            if match: cleaned = match.group(0)
             results_obj = json.loads(cleaned)
             if isinstance(results_obj, list):
                  for obj in results_obj:
@@ -1429,18 +1426,48 @@ async def translate_batch_context_aware(lines: list, api_key: str, target_lang: 
                      trans = obj.get("t", "")
                      if isinstance(idx, int) and 0 <= idx < len(final_results):
                          final_results[idx] = trans
-            
-            # fill missing with fallback? 
-            # Or assume handled.
-        except: pass
+    except Exception as e:
+         logger.warning(f"Gemini Layer Failed: {e}")
 
-    # Robust Fallback (Google)
+    # --- LAYER 3: NLLB (Offline/Hybrid Complement) ---
+    # Only run if Gemini didn't complete everything (or returned source text)
+    # Check if we still have original text segments? 
+    # For now, if Gemini failed broadly, use NLLB.
+    
     if final_results == pre_processed_lines:
+        logger.info("Gemini skipped/failed. Engaging NLLB Layer...")
+        try:
+            if NLLB_AVAILABLE and hasattr(PipelineManager, 'shared_nllb'):
+                 # Use run_in_executor because NLLB is CPU bound
+                 nllb_res = await loop.run_in_executor(None, PipelineManager.shared_nllb.translate_batch, pre_processed_lines)
+                 if nllb_res and len(nllb_res) == len(pre_processed_lines):
+                     logger.info(f"NLLB Success for {len(pre_processed_lines)} lines")
+                     return nllb_res
+        except Exception as e:
+            logger.error(f"NLLB Layer Failed: {e}")
+
+    # --- LAYER 4: ROBUST FALLBACK (Google) ---
+    if final_results == pre_processed_lines:
+        logger.warning("Engaging Google Fallback (Last Resort)...")
         try:
             translator = GoogleTranslator(source='auto', target='ar')
             res = await loop.run_in_executor(None, translator.translate_batch, pre_processed_lines)
             if res and len(res) == len(pre_processed_lines): return res
-        except: pass
+        except Exception as e:
+            logger.error(f"Google Batch Failed: {e}")
+            
+        # Line-by-Line Retry
+        res_fallback = []
+        for line in pre_processed_lines:
+            try:
+                if not line.strip(): 
+                    res_fallback.append("")
+                    continue
+                t = await loop.run_in_executor(None, translator.translate, line)
+                res_fallback.append(t if t else line)
+            except: 
+                res_fallback.append(line)
+        return res_fallback
         
     return final_results
 

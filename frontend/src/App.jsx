@@ -314,6 +314,25 @@ function SidebarContent({ progress, statusText, errorText, loading, translationM
           <h3 className="font-bold text-sm">إعدادات سريعة</h3>
         </div>
         <div className="space-y-4">
+          {/* Language Selector */}
+          <div className="flex items-center justify-between">
+            <label className="text-xs text-gray-500 font-medium">اللغة</label>
+            <div className="relative group">
+              <select
+                value={targetLang}
+                onChange={(e) => setTargetLang(e.target.value)}
+                className="appearance-none bg-[#111] text-gray-300 text-[10px] font-bold py-1.5 px-3 pr-6 rounded-lg border border-[#222] focus:border-emerald-500/50 outline-none cursor-pointer hover:bg-[#161616] transition-colors w-24 text-right"
+              >
+                <option value="Arabic">العربية</option>
+                <option value="English">English</option>
+                <option value="French">Français</option>
+              </select>
+              <div className="absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none">
+                <Globe className="w-3 h-3 text-gray-500" />
+              </div>
+            </div>
+          </div>
+
           <div className="flex items-center justify-between">
             <label className="text-xs text-gray-500 font-medium">النمط</label>
             <div className="flex bg-[#111] p-1 rounded-lg border border-[#222]">
