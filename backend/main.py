@@ -1406,6 +1406,10 @@ async def translate_batch_context_aware(lines: list, api_key: str, target_lang: 
              
              OUTPUT JSON:
              """
+    except Exception as e:
+        logger.warning(f"Gemini Setup Failed: {e}") 
+        # proceed to fallback
+
              
     
     # Initialize with Source Text (Critical Fix for Fallback Comparison)
